@@ -2,8 +2,11 @@
 Workshop Codespaces
 1) pip --version
 pip 25.3 from /usr/local/lib/python3.13/site-packages/pip (python 3.13)
+
 Answer : 25.3
+
 2) The hostname is db and the port is 5432
+   
 3) After downloading the data, pushing data to DB
 import pandas as pd
 from sqlalchemy import create_engine
@@ -42,3 +45,27 @@ ORDER BY total_pickup_amount DESC
 LIMIT 1;
 
 Answer : East Harlem North
+
+6) Query :
+   SELECT 
+	lpep_pickup_datetime,
+    z_do."Zone" AS dropoff_zone,
+    MAX(t.tip_amount) AS max_tip
+FROM 
+    green_tripdata t
+JOIN 
+    zones z_pu ON t."PULocationID" = z_pu."LocationID"
+JOIN 
+    zones z_do ON t."DOLocationID" = z_do."LocationID"
+WHERE 
+    z_pu."Zone" = 'East Harlem North'
+    AND t.lpep_pickup_datetime >= '2025-11-01 00:00:00'
+    -- AND t.lpep_pickup_datetime < '2025-12-01 00:00:00'
+GROUP BY 
+    1,2
+ORDER BY 
+    max_tip DESC
+LIMIT 1;
+
+Answer : Yorkville West
+
