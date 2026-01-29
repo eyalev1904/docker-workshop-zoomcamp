@@ -42,7 +42,7 @@ resource "google_storage_bucket" "data-lake-bucket" {
 
 
 resource "google_bigquery_dataset" "dataset" {
-  dataset_id = "<The Dataset Name You Want to Use>"
+  dataset_id = "dtc-de-course-485613"
   project    = "dtc-de-course-485613"
   location   = "US"
 }
