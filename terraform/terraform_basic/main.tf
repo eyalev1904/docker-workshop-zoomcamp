@@ -17,7 +17,7 @@ provider "google" {
 
 
 resource "google_storage_bucket" "data-lake-bucket" {
-  name          = "<Your Unique Bucket Name>"
+  name          = "de-zoomcamp"
   location      = "US"
 
   # Optional, but recommended settings:
