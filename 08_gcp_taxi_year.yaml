@@ -1,0 +1,47 @@
+id: 08_gcp_taxi_year
+namespace: zoomcamp
+description: |
+  Loop over all months of 2020 and trigger the `08_gcp_taxi` flow for `taxi=yellow`.
+
+inputs:
+  - id: taxi
+    type: SELECT
+    displayName: Select taxi type
+    values: [yellow, green]
+    defaults: yellow
+
+  - id: year
+    type: SELECT
+    displayName: Year to process
+    values: ["2020"]
+    defaults: "2020"
+    allowCustomValue: true
+
+variables:
+  months: ["01","02","03","04","05","06","07","08","09","10","11","12"]
+
+tasks:
+  - id: trigger_all_months
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - |
+        for m in {{vars.months | join(' ')}}; do
+          echo "Triggering month:$m taxi:{{inputs.taxi}} year:{{inputs.year}}"
+          curl -s -X POST \
+            -H 'Content-Type: multipart/form-data' \
+            -F "taxi={{inputs.taxi}}" \
+            -F "year={{inputs.year}}" \
+            -F "month=$m" \
+            'http://host.docker.internal:18080/api/v1/main/executions/zoomcamp/08_gcp_taxi'
+          sleep 1
+        done
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{kv('GCP_CREDS')}}"
+      projectId: "{{kv('GCP_PROJECT_ID')}}"
+      location: "{{kv('GCP_LOCATION')}}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
