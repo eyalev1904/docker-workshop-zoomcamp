@@ -17,9 +17,6 @@ services:
       - "5432:5432"
     volumes:
       - ny_taxi_postgres_data:/var/lib/postgresql
-    depends_on:
-      kestra:
-        condition: service_started
 
   pgadmin:
     image: dpage/pgadmin4
