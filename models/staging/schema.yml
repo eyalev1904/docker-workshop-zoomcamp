@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: staging
+    database: your_bigquery_project_id  # Replace with your Project ID
+    schema: trips_data_all             # The dataset name in BigQuery
+    tables:
+      - name: fhv_tripdata_2019
