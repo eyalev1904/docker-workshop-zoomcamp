@@ -1,0 +1,9 @@
+default_environment: default
+environments:
+    default:
+        connections:
+            duckdb-default:
+                type: duckdb
+                path: taxi_rides_ny/taxi_rides_ny.duckdb
+        default_connections:
+            duckdb: duckdb-default
